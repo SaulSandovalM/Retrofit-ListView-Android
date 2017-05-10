@@ -47,6 +47,13 @@ public class MainActivity extends AppCompatActivity {
         requesCatalogo.enqueue(new Callback<Catalogo>() {
             @Override
             public void onResponse(Call<Catalogo> call, Response<Catalogo> response) {
+
+                Adapter adapter = new Adapter(MainActivity.this, Catalogo);
+
+
+
+
+
                 if (!response.isSuccessful()){
                     Log.i("TAG", "Error" + response.code());
                 }else {
@@ -71,18 +78,28 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-    private class Adapter extends ArrayAdapter<Adapter>{
-        private List<Adapter> lista;
+    private class Adapter extends ArrayAdapter<com.retrofit.fixtergeek.retrofit.Adapter>{
+        private List<com.retrofit.fixtergeek.retrofit.Adapter> lista;
 
-        public Adapter(Context context, List<Adapter> adapter){
+        public Adapter(Context context, List<com.retrofit.fixtergeek.retrofit.Adapter> adapter){
             super(context, R.layout.item, adapter);
             lista = adapter;
         }
         public View getView(int position, View convertView, ViewGroup parent){
             LayoutInflater inflater = LayoutInflater.from(getContext());
+
             View item = inflater.inflate(R.layout.item, null);
+
             TextView title = (TextView) item.findViewById(R.id.title);
-            title.setText(lista.get(position).get);
+            title.setText(lista.get(position).getTitle());
+
+            TextView subtitle = (TextView)item.findViewById(R.id.subtitle);
+            subtitle.setText(lista.get(position).getSubtitle());
+
+            TextView name = (TextView)item.findViewById(R.id.name);
+            name.setText(lista.get(position).getName());
+
+            return item;
         }
     }
 }
