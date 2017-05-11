@@ -36,6 +36,15 @@ public class MainActivity extends AppCompatActivity {
 
         lista = (ListView) findViewById(R.id.lista);
 
+        RestAdapter restadapter = new RestAdapter.Builder().setEndpoint("https://www.udacity.com/public-api/v0/").build();
+        Service service = restadapter.create(Service.class);
+        service.getClass(new Callback<List<Adapter>()){
+            @Override
+            public void success(List<Adapter> );
+            Adapter adapter = new Adapter(MainActivity.this,);
+            lista.setAdapter(adapter);
+        }
+
         Retrofit retrofit  = new Retrofit.Builder()
                 .baseUrl(Service.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -47,12 +56,6 @@ public class MainActivity extends AppCompatActivity {
         requesCatalogo.enqueue(new Callback<Catalogo>() {
             @Override
             public void onResponse(Call<Catalogo> call, Response<Catalogo> response) {
-
-                Adapter adapter = new Adapter(MainActivity.this, Catalogo);
-
-
-
-
 
                 if (!response.isSuccessful()){
                     Log.i("TAG", "Error" + response.code());
